@@ -3,8 +3,16 @@ import { getPostData, getSortedPostsData } from '@/lib/posts';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+// This is turning the component from SSR to SSG
+export function generateStaticParams() {
+  const posts = getSortedPostsData(); // dedpulicated!
+  return posts.map((post) => ({
+    postId: post.id,
+  }));
+}
+
 export function generateMetadata({ params }: { params: { postId: string } }) {
-  const posts = getSortedPostsData();
+  const posts = getSortedPostsData(); // dedpulicated!
   const { postId } = params;
 
   const post = posts.find((post) => post.id === postId);
